@@ -87,7 +87,7 @@ public class Bank {
         if (account != null) {
             System.out.println("Account " + accountId + " balance: $" + account.getBalance());
         } else {
-            System.out.println("Account not found.");
+            System.out.println("Account not found!");
         }
     }
 
