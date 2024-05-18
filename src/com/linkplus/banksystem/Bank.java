@@ -19,28 +19,21 @@ public class Bank {
         this.transactionFlatFeeAmount = transactionFlatFeeAmount;
         this.transactionPercentFeeValue = transactionPercentFeeValue;
     }
-    
 
 
-    public void createAccount(String accountIdStr, String userName, double initialBalance) throws IllegalArgumentException {
-        try {
-            int accountId = Integer.parseInt(accountIdStr);
-
-            if (accountId < 0) {
-                throw new IllegalArgumentException("Account ID cannot be negative: " + accountId);
-            }
-
-            if (findAccountById(accountId) != null) {
-                throw new IllegalArgumentException("Account ID already exists: " + accountId);
-            }
-
-            Account account = new Account(accountId, userName, initialBalance);
-            accounts.add(account);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Invalid account ID: " + accountIdStr);
+    public void createAccount(int accountId, String userName, double initialBalance) throws Exception {
+        if (accountId < 0) {
+            throw new Exception("Account ID cannot be negative: " + accountId);
         }
-    }
 
+        for (Account existingAccount : accounts) {
+            if (existingAccount.getAccountId() == accountId) {
+                throw new Exception("Account ID already exists: " + accountId);
+            }
+        }
+        Account account = new Account(accountId, userName, initialBalance);
+        accounts.add(account);
+    }
 
     public void performTransaction(int fromAccountId, int toAccountId, double amount, String reason) throws Exception {
         Account fromAccount = findAccountById(fromAccountId);
@@ -130,4 +123,6 @@ public class Bank {
         }
         return null;
     }
+
+
 }
