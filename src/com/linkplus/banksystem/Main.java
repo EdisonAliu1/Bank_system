@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Main {
     private static Bank bank;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to the Bank System!");
@@ -86,7 +86,7 @@ public class Main {
         System.out.println("Account created successfully!");
     }
 
-    private static void performTransaction(Scanner scanner) {
+    private static void performTransaction(Scanner scanner) throws Exception {
         System.out.print("Enter From Account ID: ");
         int fromAccountId = scanner.nextInt();
         System.out.print("Enter To Account ID: ");
@@ -99,7 +99,7 @@ public class Main {
         bank.performTransaction(fromAccountId, toAccountId, amount, reason);
     }
 
-    private static void withdraw(Scanner scanner) {
+    private static void withdraw(Scanner scanner) throws Exception {
         System.out.print("Enter Account ID: ");
         int accountId = scanner.nextInt();
         System.out.print("Enter Withdraw Amount: ");
@@ -107,7 +107,7 @@ public class Main {
         bank.withdraw(accountId, amount);
     }
 
-    private static void deposit(Scanner scanner) {
+    private static void deposit(Scanner scanner) throws Exception {
         System.out.print("Enter Account ID: ");
         int accountId = scanner.nextInt();
         System.out.print("Enter Deposit Amount: ");
@@ -115,13 +115,13 @@ public class Main {
         bank.deposit(accountId, amount);
     }
 
-    private static void listTransactions(Scanner scanner) {
+    private static void listTransactions(Scanner scanner) throws Exception {
         System.out.print("Enter Account ID: ");
         int accountId = scanner.nextInt();
         bank.listTransactions(accountId);
     }
 
-    private static void checkAccountBalance(Scanner scanner) {
+    private static void checkAccountBalance(Scanner scanner) throws Exception {
         System.out.print("Enter Account ID: ");
         int accountId = scanner.nextInt();
         bank.checkAccountBalance(accountId);

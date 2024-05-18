@@ -3,7 +3,6 @@ package com.linkplus.banksystem;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Bank {
     private String name;
     private List<Account> accounts;
@@ -26,69 +25,69 @@ public class Bank {
         accounts.add(account);
     }
 
-    public void performTransaction(int fromAccountId, int toAccountId, double amount, String reason) {
+    public void performTransaction(int fromAccountId, int toAccountId, double amount, String reason) throws Exception {
         Account fromAccount = findAccountById(fromAccountId);
         Account toAccount = findAccountById(toAccountId);
 
-        if (fromAccount != null && toAccount != null) {
-            double transactionFee = calculateTransactionFee(amount);
-            if (fromAccount.withdraw(amount + transactionFee)) {
-                toAccount.deposit(amount);
-                totalTransactionFeeAmount += transactionFee;
-                totalTransferAmount += amount;
-                System.out.println("Transaction successful: $" + amount + " transferred from account " + fromAccountId +
-                        " to account " + toAccountId + ". Reason: " + reason);
-            } else {
-                System.out.println("Transaction failed: Insufficient funds.");
-            }
-        } else {
-            System.out.println("Transaction failed: One or both accounts not found.");
+        if (fromAccount == null || toAccount == null) {
+            throw new Exception("One or both accounts not found.");
         }
+
+        double transactionFee = calculateTransactionFee(amount);
+        if (!fromAccount.withdraw(amount + transactionFee)) {
+            throw new Exception("Insufficient funds for transaction.");
+        }
+
+        toAccount.deposit(amount);
+        totalTransactionFeeAmount += transactionFee;
+        totalTransferAmount += amount;
+        System.out.println("Transaction successful: $" + amount + " transferred from account " + fromAccountId +
+                " to account " + toAccountId + ". Reason: " + reason);
     }
 
     private double calculateTransactionFee(double amount) {
         return transactionFlatFeeAmount + (amount * transactionPercentFeeValue / 100);
     }
 
-    public void withdraw(int accountId, double amount) {
+    public void withdraw(int accountId, double amount) throws Exception {
         Account account = findAccountById(accountId);
-        if (account != null) {
-            if (account.withdraw(amount)) {
-                System.out.println("Withdrawal successful: $" + amount + " withdrawn from account " + accountId);
-            } else {
-                System.out.println("Withdrawal failed: Insufficient funds.");
-            }
-        } else {
-            System.out.println("Withdrawal failed: Account not found.");
+        if (account == null) {
+            throw new Exception("Account not found.");
         }
+
+        if (!account.withdraw(amount)) {
+            throw new Exception("Insufficient funds for withdrawal.");
+        }
+
+        System.out.println("Withdrawal successful: $" + amount + " withdrawn from account " + accountId);
     }
 
-    public void deposit(int accountId, double amount) {
+    public void deposit(int accountId, double amount) throws Exception {
         Account account = findAccountById(accountId);
-        if (account != null) {
-            account.deposit(amount);
-            System.out.println("Deposit successful: $" + amount + " deposited to account " + accountId);
-        } else {
-            System.out.println("Deposit failed: Account not found.");
+        if (account == null) {
+            throw new Exception("Account not found.");
         }
+
+        account.deposit(amount);
+        System.out.println("Deposit successful: $" + amount + " deposited to account " + accountId);
     }
 
-    public void listTransactions(int accountId) {
+    public void listTransactions(int accountId) throws Exception {
         Account account = findAccountById(accountId);
-        if (account != null) {
-            account.listTransactions();
-        } else {
-            System.out.println("Account not found.");
+        if (account == null) {
+            throw new Exception("Account not found.");
         }
+
+        account.listTransactions();
     }
 
-    public void checkAccountBalance(int accountId) {
+    public void checkAccountBalance(int accountId) throws Exception {
         Account account = findAccountById(accountId);
-        if (account != null) {
-            System.out.println("Account " + accountId + " balance: $" + account.getBalance());
-        } else {
-            System.out.println("Account not found!");
+        if (account == null) {
+            throw new Exception("Account not found.");
         }
+
+        System.out.println("Account " + accountId + " balance: $" + account.getBalance());
     }
 
     public void listBankAccounts() {
