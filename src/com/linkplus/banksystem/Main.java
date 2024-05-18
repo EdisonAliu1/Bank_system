@@ -23,7 +23,7 @@ public class Main {
                 validFees = true;
             } catch (Exception e) {
                 System.out.println("Invalid input. Please enter valid numeric values for fees.");
-                scanner.nextLine(); // Consume the invalid input
+                scanner.nextLine();
             }
         }
 

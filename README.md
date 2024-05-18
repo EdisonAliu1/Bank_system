@@ -42,6 +42,5 @@ Here's an example of how to use the program:
 
 ## Dependencies
 
-- Java Development Kit (JDK): Ensure that you have Java installed on your system.
+- Java Development Kit (JDK 19.0.1 or later): Ensure that you have Java installed on your system. This project is developed using JDK 19.0.1.
 - IntelliJ IDEA (or any Java IDE): The project is developed using IntelliJ IDEA, but you can use any Java IDE of your choice.
-

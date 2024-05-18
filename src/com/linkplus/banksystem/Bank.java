@@ -39,6 +39,9 @@ public class Bank {
         Account fromAccount = findAccountById(fromAccountId);
         Account toAccount = findAccountById(toAccountId);
 
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Transaction amount can not be negative or 0! ");
+        }
         if (fromAccount == null || toAccount == null) {
             throw new Exception("One or both accounts not found.");
         }
@@ -61,6 +64,9 @@ public class Bank {
 
     public void withdraw(int accountId, double amount) throws Exception {
         Account account = findAccountById(accountId);
+        if (amount <=0) {
+            throw new IllegalArgumentException("Withdraw amount can not be negative or 0 ");
+        }
         if (account == null) {
             throw new Exception("Account not found.");
         }
