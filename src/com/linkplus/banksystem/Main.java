@@ -76,7 +76,7 @@ public class Main {
 
     private static void createAccount(Scanner scanner) {
         System.out.print("Enter Account ID: ");
-        int accountId = scanner.nextInt();
+        String accountId = scanner.nextLine();
         scanner.nextLine();
         System.out.print("Enter User Name: ");
         String userName = scanner.nextLine();
@@ -93,7 +93,7 @@ public class Main {
         int toAccountId = scanner.nextInt();
         System.out.print("Enter Amount: ");
         double amount = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         System.out.print("Enter Reason: ");
         String reason = scanner.nextLine();
         bank.performTransaction(fromAccountId, toAccountId, amount, reason);
