@@ -3,13 +3,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
-
 @Component
 public class BankSystemRunner implements CommandLineRunner {
     private static Bank bank;
 
     @Override
     public void run(String... args) {
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to the Bank System!");
@@ -169,4 +169,3 @@ public class BankSystemRunner implements CommandLineRunner {
         return scanner.nextInt();
     }
 }
-

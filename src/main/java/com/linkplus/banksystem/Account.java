@@ -15,6 +15,7 @@ public class Account {
         this.userName = userName;
         this.balance = initialBalance;
         this.transactions = new ArrayList<>();
+        InMemoryDatabase.saveAccount(this);
     }
 
     public int getAccountId() {

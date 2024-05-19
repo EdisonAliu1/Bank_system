@@ -3,6 +3,7 @@ package com.linkplus.banksystem;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Bank {
     private String name;
     private List<Account> accounts;
@@ -20,27 +21,25 @@ public class Bank {
         this.transactionPercentFeeValue = transactionPercentFeeValue;
     }
 
-
     public void createAccount(int accountId, String userName, double initialBalance) throws Exception {
         if (accountId < 0) {
             throw new Exception("Account ID cannot be negative: " + accountId);
         }
 
-        for (Account existingAccount : accounts) {
-            if (existingAccount.getAccountId() == accountId) {
-                throw new Exception("Account ID already exists: " + accountId);
-            }
+        if (InMemoryDatabase.getAccount(accountId) != null) {
+            throw new Exception("Account ID already exists: " + accountId);
         }
+
         Account account = new Account(accountId, userName, initialBalance);
-        accounts.add(account);
+        InMemoryDatabase.saveAccount(account);
     }
 
     public void performTransaction(int fromAccountId, int toAccountId, double amount, String reason) throws Exception {
-        Account fromAccount = findAccountById(fromAccountId);
-        Account toAccount = findAccountById(toAccountId);
+        Account fromAccount = InMemoryDatabase.getAccount(fromAccountId);
+        Account toAccount = InMemoryDatabase.getAccount(toAccountId);
 
         if (amount <= 0) {
-            throw new IllegalArgumentException("Transaction amount can not be negative or 0! ");
+            throw new IllegalArgumentException("Transaction amount cannot be negative or 0! ");
         }
         if (fromAccount == null || toAccount == null) {
             throw new Exception("One or both accounts not found.");
@@ -63,9 +62,9 @@ public class Bank {
     }
 
     public void withdraw(int accountId, double amount) throws Exception {
-        Account account = findAccountById(accountId);
-        if (amount <=0) {
-            throw new IllegalArgumentException("Withdraw amount can not be negative or 0 ");
+        Account account = InMemoryDatabase.getAccount(accountId);
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Withdraw amount cannot be negative or 0 ");
         }
         if (account == null) {
             throw new Exception("Account not found.");
@@ -79,7 +78,7 @@ public class Bank {
     }
 
     public void deposit(int accountId, double amount) throws Exception {
-        Account account = findAccountById(accountId);
+        Account account = InMemoryDatabase.getAccount(accountId);
         if (account == null) {
             throw new Exception("Account not found.");
         }
@@ -89,7 +88,7 @@ public class Bank {
     }
 
     public void listTransactions(int accountId) throws Exception {
-        Account account = findAccountById(accountId);
+        Account account = InMemoryDatabase.getAccount(accountId);
         if (account == null) {
             throw new Exception("Account not found.");
         }
@@ -98,7 +97,7 @@ public class Bank {
     }
 
     public void checkAccountBalance(int accountId) throws Exception {
-        Account account = findAccountById(accountId);
+        Account account = InMemoryDatabase.getAccount(accountId);
         if (account == null) {
             throw new Exception("Account not found.");
         }
@@ -108,7 +107,7 @@ public class Bank {
 
     public void listBankAccounts() {
         System.out.println("Bank Accounts:");
-        for (Account account : accounts) {
+        for (Account account : InMemoryDatabase.getAllAccounts()) {
             System.out.println(account);
         }
     }
@@ -120,15 +119,4 @@ public class Bank {
     public double getTotalTransferAmount() {
         return totalTransferAmount;
     }
-
-    private Account findAccountById(int accountId) {
-        for (Account account : accounts) {
-            if (account.getAccountId() == accountId) {
-                return account;
-            }
-        }
-        return null;
-    }
-
-
 }
